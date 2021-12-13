@@ -1,0 +1,106 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% include 'todoapp/messages.html' %}
+
+<head>
+
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--style-->
+    <style>
+        .card {
+
+            box-shadow: 0 4px 8px 0 rgba(43, 43, 43, 0.4),
+                0 6px 20px 0 rgba(43, 43, 43, 0.4);
+            margin-bottom: 5%;
+            background: rgb(144, 213, 245);
+            border-radius: 25px;
+            padding: 2%;
+            overflow: auto;
+            resize: both;
+            text-overflow: ellipsis;
+        }
+
+        .card:hover {
+            background: rgb(144, 213, 245);
+        }
+
+        .submit_form {
+
+            text-align: center;
+            padding: 3%;
+            background: rgb(144, 213, 245);
+            border-radius: 25px;
+            box-shadow: 0 4px 8px 0 rgba(43, 43, 43, 0.4),
+                0 6px 20px 0 rgba(43, 43, 43, 0.4);
+        }
+    </style>
+
+</head>
+
+<body class="container-fluid">
+
+    <!-- {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info">
+        <strong>{{message}}</strong>
+    </div>
+    {% endfor %}
+    {% endif %} -->
+
+    <center class="row">
+        <h1><i>__TODO LIST__</i></h1>
+        <hr />
+    </center>
+
+    <div class="row">
+
+        <div class="col-md-8">
+
+            {% for i in list %}
+
+            <div class="card">
+                <h2>
+                    <center><b>{{i.title}}</b></center>
+                </h2>
+                <hr />
+                <strong>{{i.date}}</strong>
+                <hr />
+                <p>
+                    {{i.description|truncatewords:10|linebreaks}}
+                </p>
+                <br />
+                <br />
+                <form action="del/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+                    {% csrf_token %}
+                    <button value="Done" type="submit" class="btn btn-primary" style="float: right;">
+                        <span class="glyphicon glyphicon-check"></span> &nbsp; Done</button>
+                </form>
+            </div>
+            {% endfor%}
+        </div>
+        <div class="col-md-1"> </div>
+        <div class="col-md-3">
+            <div class="submit_form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <!-- <font color='white'> -->
+                    {{forms|crispy}}
+                    <!-- </font> -->
+                    <center>
+                        <br>
+                        <button type="submit" class="btn btn-primary" value="Create new todo">
+                            <span class="glyphicon glyphicon-plus"></span> &nbsp; Create new todo</button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
